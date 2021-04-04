@@ -17,7 +17,8 @@ BreachType classifyTemperatureBreach(CoolingType coolingType, double temperature
 
 typedef enum {
   TO_CONTROLLER,
-  TO_EMAIL
+  TO_EMAIL,
+  TO_CONSOLE
 } AlertTarget;
 
 typedef struct {
@@ -37,3 +38,4 @@ status checkAndAlert(
 
 status sendToController(BreachType breachType);
 status sendToEmail(BreachType breachType);
+status sendToConsole(BreachType breachType);
