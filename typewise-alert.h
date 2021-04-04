@@ -25,6 +25,13 @@ typedef struct {
   char brand[48];
 } BatteryCharacter;
 
+
+typedef enum {
+	SUCCESS,
+	FAILURE
+} status;
+
+
 void checkAndAlert(
   AlertTarget alertTarget, BatteryCharacter batteryChar, double temperatureInC);
 
