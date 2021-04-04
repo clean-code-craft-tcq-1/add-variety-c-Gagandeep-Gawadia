@@ -54,3 +54,15 @@ status sendToEmail(BreachType breachType) {
   }
   return SUCCESS;
 }
+
+
+status sendToConsole(BreachType breachType) {
+	
+	char* breachMsg[2] = { "too low", "too high" };
+
+	if (breachType < NORMAL)
+	{
+		printf("Hi, the temperature is %s \n", breachMsg[breachType]);
+	}
+	return SUCCESS;
+}
