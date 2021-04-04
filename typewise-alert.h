@@ -32,8 +32,8 @@ typedef enum {
 } status;
 
 
-void checkAndAlert(
+status checkAndAlert(
   AlertTarget alertTarget, BatteryCharacter batteryChar, double temperatureInC);
 
-void sendToController(BreachType breachType);
-void sendToEmail(BreachType breachType);
+status sendToController(BreachType breachType);
+status sendToEmail(BreachType breachType);
