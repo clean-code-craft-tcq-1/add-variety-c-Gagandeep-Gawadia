@@ -27,7 +27,7 @@ BreachType classifyTemperatureBreach(
 
 status checkAndAlert(AlertTarget alertTarget, BatteryCharacter batteryChar, double temperatureInC)
 {
-	status(*callAlertTarget[])(BreachType) = { sendToController , sendToEmail , sendToConsole};
+	status(*callAlertTarget[])(BreachType) = { sendToController , sendToEmail };
 	status taskStatus = FAILURE;
 	BreachType breachType = classifyTemperatureBreach(
 		batteryChar.coolingType, temperatureInC
