@@ -29,7 +29,7 @@ TEST_CASE("infers the breach according to limits") {
   }
 }
 
-TEST_CASE("infers the breach according to limits based on cooling type") {
+TEST_CASE("checks the if temperature is within limits based on cooling type and alerts if required") {
 	typedef struct 
 	{ 
 		CoolingType coolingType;
@@ -52,4 +52,30 @@ TEST_CASE("infers the breach according to limits based on cooling type") {
 			      == test_OutputMatrix[TestCaseNr]));
 
 	}
+}
+
+TEST_CASE("infers the breach according to limits based on cooling type ") {
+	typedef struct
+	{
+		AlertTarget alertTarget;
+		BatteryCharacter batteryChar;
+		double temperatureInC;
+	}test_InputStructure;
+
+	int const NoofTestCases = 3;
+	test_InputStructure  test_InputMatrix[NoofTestCases] = { {TO_CONSOLE  , { PASSIVE_COOLING ,  ""  }, 12},
+								 {TO_CONTROLLER,{ HI_ACTIVE_COOLING, ""  }, 12},
+								 {TO_EMAIL     ,{ MED_ACTIVE_COOLING, "" }, 12},
+	};
+	double test_OutputMatrix[NoofTestCases] = {  { SUCCESS },
+		                                     { SUCCESS }	,
+						     { SUCCESS },
+
+	};
+
+	for (int TestCaseNr = 0; TestCaseNr < NoofTestCases; TestCaseNr++) {
+		assert((checkAndAlert(test_InputMatrix[TestCaseNr].alertTarget, test_InputMatrix[TestCaseNr].batteryChar,
+			test_InputMatrix[TestCaseNr].temperatureInC) == test_OutputMatrix[TestCaseNr]));
+	}
+	
 }
