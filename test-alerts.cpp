@@ -28,3 +28,28 @@ TEST_CASE("infers the breach according to limits") {
 			                 test_InputMatrix[TestCaseNr][2]) == test_OutputMatrix[TestCaseNr]));
   }
 }
+
+TEST_CASE("infers the breach according to limits based on cooling type") {
+	typedef struct 
+	{ 
+		CoolingType coolingType;
+		double temperatureInC;
+	}test_InputStructure;
+
+	int const NoofTestCases = 3;
+	test_InputStructure  test_InputMatrix[NoofTestCases] = { { PASSIVE_COOLING    , 12 },
+	                                                         { HI_ACTIVE_COOLING  , 0 },
+	                                                         { MED_ACTIVE_COOLING , 50 },
+	                                                       };
+	double test_OutputMatrix[NoofTestCases] = {  { NORMAL },
+                                                     { NORMAL },
+	                                             { TOO_HIGH}
+						  };
+	
+	for (int TestCaseNr = 0; TestCaseNr < NoofTestCases; TestCaseNr++){
+	
+        REQUIRE((classifyTemperatureBreach(test_InputMatrix[TestCaseNr].coolingType, test_InputMatrix[TestCaseNr].temperatureInC) 
+			      == test_OutputMatrix[TestCaseNr]));
+
+	}
+}
