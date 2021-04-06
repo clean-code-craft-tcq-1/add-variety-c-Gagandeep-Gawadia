@@ -87,4 +87,22 @@ TEST_CASE("returns success when sendToEmail is executed ") {
 	for (int TestCaseNr = 0;TestCaseNr < 3;TestCaseNr++) {
 		REQUIRE((sendToEmail(breachType[TestCaseNr]) == SUCCESS));
 	}
-}	
+}
+
+TEST_CASE("returns success when sendToConsole is executed ") {
+	
+	BreachType breachType[3] = {TOO_HIGH,TOO_LOW,NORMAL};
+	
+	for (int TestCaseNr = 0;TestCaseNr < 3;TestCaseNr++) {
+		REQUIRE((sendToConsole(breachType[TestCaseNr]) == SUCCESS));
+	}
+}
+
+TEST_CASE("returns success when sendToController is executed ") {
+	
+	BreachType breachType[3] = {TOO_HIGH,TOO_LOW,NORMAL};
+	
+	for (int TestCaseNr = 0;TestCaseNr < 3;TestCaseNr++) {
+		REQUIRE((sendToController(breachType[TestCaseNr]) == SUCCESS));
+	}
+}
