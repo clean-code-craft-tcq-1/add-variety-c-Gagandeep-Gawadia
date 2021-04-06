@@ -68,8 +68,8 @@ TEST_CASE("infers the breach according to limits based on cooling type ") {
 								 {TO_EMAIL     ,{ MED_ACTIVE_COOLING, "" }, 12},
 	};
 	double test_OutputMatrix[NoofTestCases] = {  { SUCCESS },
-		                                     { SUCCESS }	,
-						     { SUCCESS },
+		                                     { SUCCESS },
+						     { FAILURE },
 
 	};
 
