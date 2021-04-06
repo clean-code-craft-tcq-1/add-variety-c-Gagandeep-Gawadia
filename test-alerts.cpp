@@ -75,7 +75,7 @@ TEST_CASE("infers the breach according to limits based on cooling type ") {
 
 	for (int TestCaseNr = 0; TestCaseNr < NoofTestCases; TestCaseNr++) {
 		REQUIRE((checkAndAlert(test_InputMatrix[TestCaseNr].alertTarget, test_InputMatrix[TestCaseNr].batteryChar,
-			test_InputMatrix[TestCaseNr].temperatureInC) == test_OutputMatrix[TestCaseNr]));
+			test_InputMatrix[TestCaseNr].temperatureInC) == test_OutputMatrix[TestCaseNr]))<< "Test case failed in iteration : %d"<< TestCaseNr+1;
 	}
 	
 }
