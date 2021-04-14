@@ -70,15 +70,18 @@ TEST_CASE("infers the breach according to limits based on cooling type ") {
 								 {TO_CONTROLLER,{ HI_ACTIVE_COOLING, ""  }, 12},
 								 {TO_EMAIL     ,{ MED_ACTIVE_COOLING, "" }, 12},
 	};
-	double test_OutputMatrix[NoofTestCases] = {  { SUCCESS },
-		                                     { SUCCESS },
-						     { SUCCESS },
 
-	};
 
 	for (int TestCaseNr = 0; TestCaseNr < NoofTestCases; TestCaseNr++) {
-		//REQUIRE((checkAndAlert(test_InputMatrix[TestCaseNr].alertTarget, test_InputMatrix[TestCaseNr].batteryChar,
-		//	test_InputMatrix[TestCaseNr].temperatureInC) == test_OutputMatrix[TestCaseNr]));
+		
+		// Initializing the alertRaised buffer for the corresponding alert function
+		alertRaised[test_InputMatrix[TestCaseNr].alertTarget] = 0;
+		
+		//call function undert test
+		checkAndAlert(test_InputMatrix[TestCaseNr].alertTarget, test_InputMatrix[TestCaseNr].batteryChar, test_InputMatrix[TestCaseNr].temperatureInC);
+		
+		//Expected result 
+		REQUIRE(alertRaised[test_InputMatrix[TestCaseNr].alertTarget] == 1);
 	}
 	
 }
