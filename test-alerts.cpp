@@ -5,6 +5,7 @@
 #include "interface.h"
 
 extern int alertRaised[3];
+extern char  breachmessage[25];
 
 TEST_CASE("infers the breach according to limits") {
   
@@ -65,23 +66,41 @@ TEST_CASE("infers the breach according to limits based on cooling type ") {
 		double temperatureInC;
 	}test_InputStructure;
 
-	int const NoofTestCases = 3;
-	test_InputStructure  test_InputMatrix[NoofTestCases] = { {TO_CONSOLE  , { PASSIVE_COOLING ,  ""  }, 12},
-								 {TO_CONTROLLER,{ HI_ACTIVE_COOLING, ""  }, 12},
-								 {TO_EMAIL     ,{ MED_ACTIVE_COOLING, "" }, 12},
+	
+	int const NoofTestCases = 5;
+	test_InputStructure  test_InputMatrix[NoofTestCases] = { {TO_CONTROLLER, { PASSIVE_COOLING ,  ""  }, 12},
+															 { TO_EMAIL,     { MED_ACTIVE_COOLING, "" }, 60},
+															 { TO_EMAIL,     { MED_ACTIVE_COOLING, "" }, 12 },
+															 { TO_CONSOLE,   { MED_ACTIVE_COOLING, "" }, 60 },
+															 { TO_CONSOLE,   { MED_ACTIVE_COOLING, "" }, 12 },
+
 	};
 
+	const char *output_message[NoofTestCases]            = {"feed_1Normal",
+								"anonymousHigh",
+								"Normal",
+								"Temp is High",
+								"Normal"};
+	
+	
+	char * buffer[3]      = { "feed_1","anonymous","Temp is " };
+	void(*mock[3])(char*) = { mock_sendtoControllerheader ,mock_sendtoEmailrecipient, mock_sendtoConsoletext };
+	
 
 	for (int TestCaseNr = 0; TestCaseNr < NoofTestCases; TestCaseNr++) {
 		
-		// Initializing the alertRaised buffer for the corresponding alert function
-		alertRaised[test_InputMatrix[TestCaseNr].alertTarget] = 0;
+		alertRaised[test_InputMatrix[TestCaseNr].alertTarget]=0;
+
+		mock[test_InputMatrix[TestCaseNr].alertTarget](buffer[test_InputMatrix[TestCaseNr].alertTarget]);
+	
+		checkAndAlert(test_InputMatrix[TestCaseNr].alertTarget, test_InputMatrix[TestCaseNr].batteryChar,
+			test_InputMatrix[TestCaseNr].temperatureInC) ;
 		
-		//call function undert test
-		checkAndAlert(test_InputMatrix[TestCaseNr].alertTarget, test_InputMatrix[TestCaseNr].batteryChar, test_InputMatrix[TestCaseNr].temperatureInC);
 		
-		//Expected result 
+	        //Expected result 
 		REQUIRE(alertRaised[test_InputMatrix[TestCaseNr].alertTarget] == 1);
+		REQUIRE((strcmp(breachmessage, output_message[TestCaseNr]))==0);
+		
 	}
 	
 }
