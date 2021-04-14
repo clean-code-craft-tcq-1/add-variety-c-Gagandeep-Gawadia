@@ -26,16 +26,6 @@ typedef struct {
   char brand[48];
 } BatteryCharacter;
 
-
-typedef enum {
-	SUCCESS,
-	FAILURE
-} status;
+void checkAndAlert(AlertTarget alertTarget, BatteryCharacter batteryChar, double temperatureInC);
 
 
-status checkAndAlert(
-  AlertTarget alertTarget, BatteryCharacter batteryChar, double temperatureInC);
-
-status sendToController(BreachType breachType);
-status sendToEmail(BreachType breachType);
-status sendToConsole(BreachType breachType);
