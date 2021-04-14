@@ -25,44 +25,16 @@ BreachType classifyTemperatureBreach(
   return inferBreach(temperatureInC, lowerLimit, upperLimit);
 }
 
-status checkAndAlert(AlertTarget alertTarget, BatteryCharacter batteryChar, double temperatureInC)
+void checkAndAlert(AlertTarget alertTarget, BatteryCharacter batteryChar, double temperatureInC)
 {
-	status(*callAlertTarget[])(BreachType) = { sendToController , sendToEmail , sendToConsole};
-	status taskStatus = FAILURE;
+	void (*callAlertTarget[])(BreachType) = { sendToController , sendToEmail , sendToConsole};
+	
 	BreachType breachType = classifyTemperatureBreach(
 		batteryChar.coolingType, temperatureInC
 	);
 
-	taskStatus = callAlertTarget[alertTarget](breachType);
-	return taskStatus;
-}
-
-status sendToController(BreachType breachType) {
-  const unsigned short header = 0xfeed;
-  printf("%x : %x\n", header, breachType);
-  return SUCCESS;
-}
-
-status sendToEmail(BreachType breachType) {
-  const char* recepient = "a.b@c.com";
-  char* breachMsg[2] = { "too low", "too high" };
- 
-  if (breachType < NORMAL)
-  {
-	  printf("To: %s\n", recepient);
-	  printf("Hi, the temperature is %s \n",breachMsg[breachType]);
-  }
-  return SUCCESS;
-}
-
-
-status sendToConsole(BreachType breachType) {
+	callAlertTarget[alertTarget](breachType);
 	
-	char* breachMsg[2] = { "too low", "too high" };
-
-	if (breachType < NORMAL)
-	{
-		printf("Hi, the temperature is %s \n", breachMsg[breachType]);
-	}
-	return SUCCESS;
 }
+
+
